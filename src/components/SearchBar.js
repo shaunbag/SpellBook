@@ -9,36 +9,43 @@ class SearchBar extends React.Component {
             name: '',
             description: '',
             components: '',
-            level: ''
+            level: '',
+            range: '',
+            savingThrow: ''
         }
 
     this.handleKeyword = this.handleKeyword.bind(this);
     this.search = this.search.bind(this)
+    
     }
 
-    // capitalise function
-
-    capitalizeFirstLetter(string) {
-        return string.charAt(0).toUpperCase() + string.slice(1);
-      }
-
-
-    
+        
     // search function -- iterate json for current searchword (keyword)
 
     search(event){
         event.preventDefault()
-        const keyword = this.state.keyword;
-        //const capitalKeyword = // insert capitalise function -- target EACH first letter -> split tsring at ' '
-        for (let i = 0 ; this.props.search[0].spells.length; i++){
-            if (this.props.search[0].spells[i].name === keyword){
+        const keyword = this.state.keyword.toLowerCase();
+        for (let i = 0 ; i < this.props.search[0].spells.length; i++){
+            if (this.props.search[0].spells[i].name.toLowerCase() === keyword){
                 this.setState({
                     name: this.props.search[0].spells[i].name,
                     description: 'Description :   ' + this.props.search[0].spells[i].description,
                     components: 'Spell Components :   ' + this.props.search[0].spells[i].components,
-                    level: 'Spell Level :   ' + this.props.search[0].spells[i].spell_level
+                    level: 'Spell Level :   ' + this.props.search[0].spells[i].spell_level,
+                    range: 'Spell Range :   ' + this.props.search[0].spells[i].range,
+                    savingThrow: 'Saving Throw :   ' + this.props.search[0].spells[i].saving_throw
                 })
                 break;
+            } else {
+                this.setState({
+                    name: 'Spell not Found',
+                    description: '',
+                    components: '',
+                    level: '',
+                    range: '',
+                    savingThrow: ''
+
+                })
             }
         }
     };
@@ -46,8 +53,7 @@ class SearchBar extends React.Component {
   
     // target user input and set as current keyword to input into search()
 
-    handleKeyword(event){
-        
+    handleKeyword(event){        
         this.setState({ keyword: event.target.value })
     }
 
@@ -64,7 +70,13 @@ class SearchBar extends React.Component {
                     <input type="text" placeholder="Enter Spell Name" onChange={this.handleKeyword}></input>
                     <button onClick={this.search}>Search</button>
                 </form>
-                <Spell name={this.state.name} description={this.state.description} components={this.state.components} level={this.state.level} />
+                <Spell 
+                    name={this.state.name} 
+                    description={this.state.description} 
+                    components={this.state.components} 
+                    level={this.state.level}
+                    range={this.state.range}
+                    savingThrow={this.state.savingThrow} />
     
             </div>
         )
