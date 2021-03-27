@@ -24,7 +24,7 @@ class SearchBar extends React.Component {
 
     search(event){
         event.preventDefault()
-        const keyword = this.state.keyword.toLowerCase();
+        const keyword = this.state.keyword.toLowerCase().trim();
         for (let i = 0 ; i < this.props.search[0].spells.length; i++){
             if (this.props.search[0].spells[i].name.toLowerCase() === keyword){
                 this.setState({
